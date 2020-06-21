@@ -36,30 +36,24 @@ difference(){
             body();
             translate([-30.985, -58.57/2, 0]){
                 rotate([90, 0,  0]){
-                    scale([4.35/4.3, 4.35/4.3, 1]){
-                        cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
-                    }
+                    cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
                 }
             }
         }
         translate([-30.985 + 10.29, -58.57/2, 0]){
             rotate([90, 0,  0]){
-                scale([4.35/4.3, 4.35/4.3, 1]){
-                    cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
-                }
+                cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
             }
         }
     }
-    //translate([-42.055, -58.57/2, 0]){
-        //ringerswitchhole();
-    //}
+    ringer_switch_hole();
 }
 
 //volume up
 module volume_up(){
     translate([-30.985, -58.57/2, 0]){
         rotate([90, 0,  0]){
-            cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
+            cylinder(r = 4.23/2, h = 0.42*2, center = true, $fn = 300);
         }
     }
 }
@@ -73,28 +67,102 @@ module volume_down(){
 }
 volume_down();
 
+//volume button bevels
+translate([0, -0.42, 0]){
+    translate([-30.985, -58.57/2, 0]){
+        rotate([90, 0,  0]){
+            linear_extrude(height = 0.16, scale = [0.924, 0.924]){
+                circle(r = 4.23/2, $fn = 300);
+            }
+        }
+    }
+    translate([-30.985 + 10.29, -58.57/2, 0]){
+        rotate([90, 0,  0]){
+            linear_extrude(height = 0.16, scale = [0.924, 0.924]){
+                circle(r = 4.23/2, $fn = 300);
+            }
+        }
+    }
+}
+translate([0, 0.1, 0]){
+    volume_up();
+    volume_down();
+}
+
+//ringer switch
 module ringer_switch(){
-translate([-(5.4-1.12)/2, 0, 0]){
-    rotate([90, 0, 0]){
-        cylinder(r = 1.12/2, h = 0.63*2, $fn = 200, center = true);
+    translate([-(5.4-1.12)/2, 0, 0]){
+        rotate([90, 0, 0]){
+            cylinder(r = 1.12/2, h = 0.63*2, $fn = 200, center = true);
+        }
     }
-}
-translate([(5.4-1.12)/2, 0, 0]){
-    rotate([90, 0, 0]){
-        cylinder(r = 1.12/2, h = 0.63*2, $fn = 200, center = true);
+    translate([(5.4-1.12)/2, 0, 0]){
+        rotate([90, 0, 0]){
+            cylinder(r = 1.12/2, h = 0.63*2, $fn = 200, center = true);
+        }
     }
+    cube([5.4 - (1.12), 0.63*2, 1.12], center = true);
 }
-cube([5.4 - (1.12), 0.63*2, 1.12], center = true);
-}
-
-translate([-42.055, -58.57/2, -0.41]){
-    ringer_switch();
-}
-
-//DO SOMETHING
-
-translate([0, 0, 0.518888]){
-    scale([1, 1.3, 1]){
+translate([-42.055, -58.57/2, -0.4]){
+    scale([1.03, 0.53/0.63, 1]){    
         ringer_switch();
+    }
+}
+
+//ringer switch bevel 
+translate([-42.055, -58.57/2 - 0.58, -0.4]){   
+    scale([1.03, 1, 1]){
+        rotate([90, 0, 0]){
+            translate([-(5.4-1.12)/2, 0, 0]){
+                linear_extrude(height = 0.1, center = true, convexity = 10, scale=[0.821, 0.821]){
+                    circle(r = 1.12/2, $fn = 200);
+                }
+            }
+            translate([(5.4-1.12)/2, 0, 0]){
+                linear_extrude(height = 0.1, center = true, convexity = 10, scale=[0.821, 0.821]){
+                    circle(r = 1.12/2, $fn = 200);
+                }
+            }
+            linear_extrude(height = 0.1, center = true, convexity = 10, scale=[1, 0.821]){
+                translate([0, 0, 0]){   
+                    square([5.4-1.12, 1.12], center = true);
+                }
+            }
+        }
+    }
+}
+translate([-42.055, -58.57/2 + 0.15, -0.4]){
+    scale([1.03, 1, 1]){    
+        ringer_switch();
+    }
+}
+
+//ringer switch hole
+module ringer_switch_alt(){
+    translate([-(5.4-1.12)/2, 0, 0]){
+        rotate([90, 0, 0]){
+            cylinder(r = 1.42/2, h = 0.63*2, $fn = 200, center = true);
+        }
+    }
+    translate([(5.4-1.12)/2, 0, 0]){
+        rotate([90, 0, 0]){
+            cylinder(r = 1.42/2, h = 0.63*2, $fn = 200, center = true);
+        }
+    }
+    cube([5.4 - (1.12), 0.63*2, 1.42], center = true);
+}
+module ringer_switch_hole(){
+    translate([-42.055, -58.57/2, 0]){
+        //#cube([5.4, 5, 1.12], center = true);
+        hull(){
+            translate([0, 0, 0.4]){
+                ringer_switch_alt();
+            }
+            mirror([0, 0, 1]){
+                translate([0, 0, 0.4]){
+                    ringer_switch_alt();
+                }
+            }
+        }
     }
 }
