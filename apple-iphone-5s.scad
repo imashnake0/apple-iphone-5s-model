@@ -33,20 +33,23 @@ module body(){
 difference(){
     difference(){
         difference(){
-            body();
-            translate([-30.985, -58.57/2, 0]){
+            difference(){
+                body();
+                translate([-30.985, -58.57/2, 0]){
+                    rotate([90, 0,  0]){
+                        cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
+                    }
+                }
+            }
+            translate([-30.985 + 10.29, -58.57/2, 0]){
                 rotate([90, 0,  0]){
                     cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
                 }
             }
         }
-        translate([-30.985 + 10.29, -58.57/2, 0]){
-            rotate([90, 0,  0]){
-                cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
-            }
-        }
+        ringer_switch_hole();
     }
-    ringer_switch_hole();
+    sleep_wake_button_hole();
 }
 
 //volume up
@@ -103,14 +106,14 @@ module ringer_switch(){
     }
     cube([5.4 - (1.12), 0.63*2, 1.12], center = true);
 }
-translate([-42.055, -58.57/2, -0.4]){
+translate([-42.055, -58.57/2, -0.46]){
     scale([1.03, 0.53/0.63, 1]){    
         ringer_switch();
     }
 }
 
 //ringer switch bevel 
-translate([-42.055, -58.57/2 - 0.58, -0.4]){   
+translate([-42.055, -58.57/2 - 0.58, -0.46]){   
     scale([1.03, 1, 1]){
         rotate([90, 0, 0]){
             translate([-(5.4-1.12)/2, 0, 0]){
@@ -131,7 +134,7 @@ translate([-42.055, -58.57/2 - 0.58, -0.4]){
         }
     }
 }
-translate([-42.055, -58.57/2 + 0.15, -0.4]){
+translate([-42.055, -58.57/2 + 0.15, -0.46]){
     scale([1.03, 1, 1]){    
         ringer_switch();
     }
@@ -166,3 +169,41 @@ module ringer_switch_hole(){
         }
     }
 }
+
+//sleep/wake button
+module sleep_wake_button(height, scale){
+    hull(){
+        translate([0, 3.65, 0]){
+            rotate([0, 90 + 180, 0]) {
+                linear_extrude(height = height, center = true, convexity = 10, scale = scale, $fn = 100){
+                    circle(r = 2.1/2, $fn = 200);
+                }
+            }
+        }
+        mirror([0, 1, 0]){
+            translate([0, 3.65, 0]){
+                rotate([0, 90 +180, 0]) {
+                    linear_extrude(height = height, center = true, convexity = 10, scale = scale, $fn = 100){
+                        circle(r = 2.1/2, $fn = 200);
+                    }
+                }
+            }
+        }
+    }
+}
+translate([-123.83/2 - 0.48/2, 14.735, 0]){
+    sleep_wake_button(0.48, 1);
+}
+translate([-123.83/2 - 0.48 - 0.1/2, 14.735, 0]){
+    sleep_wake_button(0.1, 1.9/2.1);
+}
+
+//sleep/wake button hole
+module sleep_wake_button_hole(){
+    translate([-123.83/2 - 0.48/2, 14.735, 0]){
+        scale([2, 9.5/9.4, 2.2/2.1]){
+            sleep_wake_button(0.4, 1);
+        }
+    }
+}
+//sleep_wake_button_hole();
