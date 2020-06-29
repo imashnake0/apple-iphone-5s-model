@@ -194,6 +194,9 @@ module sleep_wake_button(height, scale){
 translate([-123.83/2 - 0.48/2, 14.735, 0]){
     sleep_wake_button(0.48, 1);
 }
+translate([-115.83/2, 14.735, 0]){
+    sleep_wake_button(0.48, 1);
+}
 translate([-123.83/2 - 0.48 - 0.1/2, 14.735, 0]){
     sleep_wake_button(0.1, 1.9/2.1);
 }
