@@ -37,28 +37,31 @@ difference(){
                 difference(){
                     difference(){
                         difference(){
-                            body();
-                            translate([-30.985, -58.57/2, 0]){
+                            difference(){
+                                body();
+                                translate([-30.985, -58.57/2, 0]){
+                                    rotate([90, 0,  0]){
+                                        cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
+                                    }
+                                }
+                            }
+                            translate([-30.985 + 10.29, -58.57/2, 0]){
                                 rotate([90, 0,  0]){
                                     cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
                                 }
                             }
                         }
-                        translate([-30.985 + 10.29, -58.57/2, 0]){
-                            rotate([90, 0,  0]){
-                                cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
-                            }
-                        }
+                        ringer_switch_hole();
                     }
-                    ringer_switch_hole();
+                    sleep_wake_button_hole();
                 }
-                sleep_wake_button_hole();
+                sim_tray_outline();
             }
-            sim_tray_outline();
+            sim_tool_insert();
         }
-        sim_tool_insert();
+        lightning(6.6*2, [1, 1]);
     }
-    lightning(6.6*2, [1, 1]);
+    s_hole_diff();
 }
 //volume up
 module volume_up(){
@@ -331,8 +334,47 @@ module lightning_case(h, s, t){
     }
 }
 translate([-0.125, 0, 0]) {
-    lightning_case(0.25, [0.89, 0.89], [1.5, 1.5]);    
+    lightning_case(0.25, [0.91, 0.91], [1.6, 1.6]);    
 }
 translate([-3.3 - 0.25, 0, 0]) {
-    lightning_case(6.6, [1, 1], [1.01, 1.01]);    
+    lightning_case(6.6, [1, 1], [1.05, 1.05]);    
+}
+
+//speaker + bottom mic
+module s_hole(r, h){
+    for(i = [8.631:1.55375:19.50725]){
+        translate([123.83/2 - 0.05 + 0.001, i, 0.753125]){
+            rotate([0, 90, 180]){
+                linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = 0.815455594002) {
+                    circle(r = r, $fn = 200);
+                }
+            }
+        }
+    }
+}
+
+module s_hole_diff(){
+    s_hole(0.541875, 0.1);
+    mirror([0, 0, 1]) {
+        s_hole(0.541875, 0.1);
+    }
+    s_hole(0.491875, 2.5);
+    mirror([0, 0, 1]) {
+        s_hole(0.491875, 2.5);
+    }
+    intersection(){
+        rotate([180, 0, 0]) {
+            s_hole(0.541875, 0.1);
+            mirror([0, 0, 1]) {
+                s_hole(0.541875, 0.1);
+            }
+            s_hole(0.491875, 2.5);
+            mirror([0, 0, 1]) {
+                s_hole(0.491875, 2.5);
+            }
+        }
+        translate([123.83/2, -11.725, 0]) {
+            cube([10, 7.5, 3], true);    
+        }
+    }
 }
