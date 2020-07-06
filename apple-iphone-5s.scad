@@ -1,4 +1,4 @@
-module body_crosssection(){
+module body_cross_section(){
     translate([9.15 - (123.83/2), 9.15 - (58.57/2), 0]){    
         minkowski(){
             square([123.83 - 9.15*2, 58.57 - 9.15*2], true);
@@ -12,25 +12,25 @@ module body_crosssection(){
 module body(){
     translate([0, 0, -5.8438/2]){
         linear_extrude(height = 5.8438){
-            body_crosssection();
+            body_cross_section();
         }
     }
     translate([0, 0, 5.8438/2]){
         linear_extrude(height = 0.6431, scale = [0.989613179359, 0.978039952194]){
-            body_crosssection();
+            body_cross_section();
         }
     }
     mirror([0, 0, 1]){
         translate([0, 0, 5.8438/2]){
             linear_extrude(height = 0.6431, scale = [0.989613179359, 0.978039952194]){
-                body_crosssection();
+                body_cross_section();
             }
         }
     }
 }
 
 //body
-difference(){
+difference(){    
     difference(){
         difference(){
             difference(){
@@ -38,31 +38,36 @@ difference(){
                     difference(){
                         difference(){
                             difference(){
-                                body();
-                                translate([-30.985, -58.57/2, 0]){
+                                difference(){
+                                    body();
+                                    translate([-30.985, -58.57/2, 0]){
+                                        rotate([90, 0,  0]){
+                                            cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
+                                        }
+                                    }
+                                }
+                                translate([-30.985 + 10.29, -58.57/2, 0]){
                                     rotate([90, 0,  0]){
                                         cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
                                     }
                                 }
                             }
-                            translate([-30.985 + 10.29, -58.57/2, 0]){
-                                rotate([90, 0,  0]){
-                                    cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
-                                }
-                            }
+                            ringer_switch_hole();
                         }
-                        ringer_switch_hole();
+                        sleep_wake_button_hole();
                     }
-                    sleep_wake_button_hole();
+                    sim_tray_outline();
                 }
-                sim_tray_outline();
+                sim_tool_insert();
             }
-            sim_tool_insert();
+            lightning(6.6*2, [1, 1]);
         }
-        lightning(6.6*2, [1, 1]);
+        s_hole_diff();
     }
-    s_hole_diff();
+    audio_jack();
 }
+
+
 //volume up
 module volume_up(){
     translate([-30.985, -58.57/2, 0]){
@@ -184,7 +189,7 @@ module ringer_switch_hole(){
 module sleep_wake_button(height, scale){
     hull(){
         translate([0, 3.65, 0]){
-            rotate([0, 90 + 180, 0]) {
+            rotate([0, 90 + 180, 0]){
                 linear_extrude(height = height, center = true, convexity = 10, scale = scale, $fn = 100){
                     circle(r = 2.1/2, $fn = 200);
                 }
@@ -192,7 +197,7 @@ module sleep_wake_button(height, scale){
         }
         mirror([0, 1, 0]){
             translate([0, 3.65, 0]){
-                rotate([0, 90 +180, 0]) {
+                rotate([0, 90 +180, 0]){
                     linear_extrude(height = height, center = true, convexity = 10, scale = scale, $fn = 100){
                         circle(r = 2.1/2, $fn = 200);
                     }
@@ -232,7 +237,7 @@ module sim_tray(height, scale, radius){
         }
         mirror([1, 0, 0]){
             translate([(15.57 - 2.3 + (radius - 2.3))/2, 0, 0]){
-                rotate([90, 0, 0]) {
+                rotate([90, 0, 0]){
                     linear_extrude(height = height, center = true, convexity = 10, scale = scale, $fn = 100){
                         circle(r = radius/2, $fn = 200);
                     }
@@ -273,7 +278,7 @@ module sim_tool_insert(){
 //lightning port
 module lightning(h, s){
     hull(){
-        translate([123.83/2, (9.05/2) - (3.36/2), 0]) {
+        translate([123.83/2, (9.05/2) - (3.36/2), 0]){
             rotate([0, 90, 0]) {
                 linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
                     circle(r = 3.36/2, $fn = 200);    
@@ -281,8 +286,8 @@ module lightning(h, s){
             }
         }
         mirror([0, 1, 0]){
-            translate([123.83/2, (9.05/2) - (3.36/2), 0]) {
-                rotate([0, 90, 0]) {
+            translate([123.83/2, (9.05/2) - (3.36/2), 0]){
+                rotate([0, 90, 0]){
                     linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
                         circle(r = 3.36/2, $fn = 200);
                     }
@@ -296,16 +301,16 @@ module lightning(h, s){
 module lightning_case(h, s, t){
     difference(){
         hull(){
-            translate([123.83/2, (9.05/2) - (3.36/2), 0]) {
-                rotate([0, 90, 0]) {
+            translate([123.83/2, (9.05/2) - (3.36/2), 0]){
+                rotate([0, 90, 0]){
                     linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
                         circle(r = 3.36/2, $fn = 200);    
                     }
                 }
             }
             mirror([0, 1, 0]){
-                translate([123.83/2, (9.05/2) - (3.36/2), 0]) {
-                    rotate([0, 90, 0]) {
+                translate([123.83/2, (9.05/2) - (3.36/2), 0]){
+                    rotate([0, 90, 0]){
                         linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
                             circle(r = 3.36/2, $fn = 200);
                         }
@@ -314,16 +319,16 @@ module lightning_case(h, s, t){
             }
         }
         hull(){
-            translate([123.83/2, 5.7/2, 0]) {
-                rotate([0, 90, 0]) {
+            translate([123.83/2, 5.7/2, 0]){
+                rotate([0, 90, 0]){
                     linear_extrude(height = h + 0.01, center = true, convexity = 10, twist = 0, scale = t) {
                         circle(r = 1.49/2, $fn = 200);    
                     }
                 }
             }
             mirror([0, 1, 0]){
-                translate([123.83/2, 5.7/2, 0]) {
-                    rotate([0, 90, 0]) {
+                translate([123.83/2, 5.7/2, 0]){
+                    rotate([0, 90, 0]){
                         linear_extrude(height = h + 0.01, center = true, convexity = 10, twist = 0, scale = t) {
                             circle(r = 1.49/2, $fn = 200);
                         }
@@ -333,10 +338,10 @@ module lightning_case(h, s, t){
         }
     }
 }
-translate([-0.125, 0, 0]) {
-    lightning_case(0.25, [0.91, 0.91], [1.6, 1.6]);    
+translate([-0.125, 0, 0]){
+    lightning_case(0.25, [0.95, 0.95], [1.6, 1.6]);    
 }
-translate([-3.3 - 0.25, 0, 0]) {
+translate([-3.3 - 0.25, 0, 0]){
     lightning_case(6.6, [1, 1], [1.05, 1.05]);    
 }
 
@@ -373,8 +378,50 @@ module s_hole_diff(){
                 s_hole(0.491875, 2.5);
             }
         }
-        translate([123.83/2, -11.725, 0]) {
+        translate([123.83/2, -11.725, 0]){
             cube([10, 7.5, 3], true);    
         }
     }
+}
+
+//audio jack
+module audio_jack(){
+    translate([123.83/2, -58.7/2 + 10.45, 0]){
+        rotate([0, 90, 0]) {
+            linear_extrude(height = 14.47*2 + 0.1, center = true, convexity = 10, twist = 0, scale = 1) {
+                circle(r = 4.83/2, $fn = 200);
+            }
+        }
+    }
+}
+
+//audio jack case
+module audio_jack_case(h, s, t){
+    difference(){
+        translate([123.83/2, -58.7/2 + 10.45, 0]){
+            rotate([0, 90, 0]) {
+                linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
+                    circle(r = 4.83/2, $fn = 200);
+                }
+            }
+        }
+        translate([123.83/2, -58.7/2 + 10.45, 0]){
+            rotate([0, 90, 0]) {
+                linear_extrude(height = h + 0.01, center = true, convexity = 10, twist = 0, scale = t) {
+                    circle(r = (4.83/2) - 0.63, $fn = 200);
+                }
+            }
+        }
+    }
+}
+translate([-0.1, 0, 0]){
+    audio_jack_case(0.2, [0.96, 0.96], [1.16, 1.16]);    
+}
+translate([-(14.47/2) - 0.2/2, 0, 0]){
+    audio_jack_case(14.47 - 0.2, [1, 1], [1.005, 1.005]);    
+}
+
+//temp screen
+translate([0, 0, 7.13/2 - 0.49]) {
+    %cube([90.39, 51.7, 1], true);    
 }
