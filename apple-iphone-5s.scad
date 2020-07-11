@@ -9,6 +9,7 @@ module body_cross_section(){
         }
     }
 }
+
 module body(){
     translate([0, 0, -5.8438/2]){
         linear_extrude(height = 5.8438){
@@ -422,6 +423,22 @@ translate([-(14.47/2) - 0.2/2, 0, 0]){
 }
 
 //temp screen
-translate([0, 0, 7.13/2 - 0.49]) {
-    %cube([90.39, 51.7, 1], true);    
+translate([0, 0, 7.13/2 + 0.67]) {
+    %cube([90.39, 51.7, 0.001], true);
+}
+
+//screen
+scale([0.982, 0.961, 1]) {
+    translate([0, 0, 7.13/2]) {
+        linear_extrude(height = 0.57, center = true, convexity = 10, twist = 0) {
+            body_cross_section();
+        }
+    }
+}
+scale([0.978, 0.956, 1]) {
+    translate([0, 0, 7.13/2]) {
+        linear_extrude(height = 0.67, center = true, convexity = 10, twist = 0) {
+            body_cross_section();
+        }
+    }
 }
