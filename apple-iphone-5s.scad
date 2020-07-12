@@ -423,22 +423,47 @@ translate([-(14.47/2) - 0.2/2, 0, 0]){
 }
 
 //temp screen
-translate([0, 0, 7.13/2 + 0.67]) {
-    %cube([90.39, 51.7, 0.001], true);
+translate([0, 0, 7.13/2 + 0.67]){
+    %cube([90.39, 51.7, 0.005], true);
 }
 
 //screen
-scale([0.982, 0.961, 1]) {
-    translate([0, 0, 7.13/2]) {
-        linear_extrude(height = 0.57, center = true, convexity = 10, twist = 0) {
-            body_cross_section();
+module screen(){
+    scale([0.982, 0.961, 1]) {
+        translate([0, 0, 7.13/2]) {
+            linear_extrude(height = 0.57*2, center = true, convexity = 10, twist = 0) {
+                body_cross_section();
+            }
+        }
+    }
+    scale([0.978, 0.956, 1]) {
+        translate([0, 0, 7.13/2]) {
+            linear_extrude(height = 0.67*2, center = true, convexity = 10, twist = 0) {
+                body_cross_section();
+            }
         }
     }
 }
-scale([0.978, 0.956, 1]) {
-    translate([0, 0, 7.13/2]) {
-        linear_extrude(height = 0.67, center = true, convexity = 10, twist = 0) {
-            body_cross_section();
-        }
+difference(){
+    screen();
+    home_button();
+}
+
+//home button
+module home_button(){
+    rotate([180, 0, 0]){
+        translate([52.765, 0, -4.035]){
+            linear_extrude(height = 0.401, center = true, convexity = 10, twist = 0, scale = 10/10.9){
+                circle(r = 10.9/2, $fn = 200);
+            }
+            difference(){
+            linear_extrude(height = 0.41, center = true, convexity = 10, twist = 0, scale = 1){
+                circle(r = 11.0/2, $fn = 200);
+            }
+            linear_extrude(height = 0.4, center = true, convexity = 10, twist = 0, scale = 1){
+                circle(r = 10.9/2, $fn = 200);
+            }
+            }
+        }    
     }
 }
