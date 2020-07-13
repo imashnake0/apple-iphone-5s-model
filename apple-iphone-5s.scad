@@ -31,8 +31,8 @@ module body(){
 }
 
 //body
-difference(){    
-    difference(){
+difference(){
+    difference(){    
         difference(){
             difference(){
                 difference(){
@@ -40,32 +40,35 @@ difference(){
                         difference(){
                             difference(){
                                 difference(){
-                                    body();
-                                    translate([-30.985, -58.57/2, 0]){
+                                    difference(){
+                                        body();
+                                        translate([-30.985, -58.57/2, 0]){
+                                            rotate([90, 0,  0]){
+                                                cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
+                                            }
+                                        }
+                                    }
+                                    translate([-30.985 + 10.29, -58.57/2, 0]){
                                         rotate([90, 0,  0]){
                                             cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
                                         }
                                     }
                                 }
-                                translate([-30.985 + 10.29, -58.57/2, 0]){
-                                    rotate([90, 0,  0]){
-                                        cylinder(r = 4.3/2, h = 0.58*2, center = true, $fn = 300);
-                                    }
-                                }
+                                ringer_switch_hole();
                             }
-                            ringer_switch_hole();
+                            sleep_wake_button_hole();
                         }
-                        sleep_wake_button_hole();
+                        sim_tray_outline();
                     }
-                    sim_tray_outline();
+                    sim_tool_insert();
                 }
-                sim_tool_insert();
+                lightning(6.6*2, [1, 1]);
             }
-            lightning(6.6*2, [1, 1]);
+            s_hole_diff();
         }
-        s_hole_diff();
+        audio_jack();
     }
-    audio_jack();
+    earpiece_difference();
 }
 
 
@@ -340,10 +343,10 @@ module lightning_case(h, s, t){
     }
 }
 translate([-0.125, 0, 0]){
-    lightning_case(0.25, [0.95, 0.95], [1.6, 1.6]);    
+    lightning_case(0.25, [0.92, 0.92], [1.5, 1.5]); 
 }
 translate([-3.3 - 0.25, 0, 0]){
-    lightning_case(6.6, [1, 1], [1.05, 1.05]);    
+    lightning_case(6.6, [1, 1], [1.05, 1.05]);
 }
 
 //speaker + bottom mic
@@ -431,22 +434,25 @@ translate([0, 0, 7.13/2 + 0.67]){
 module screen(){
     scale([0.982, 0.961, 1]) {
         translate([0, 0, 7.13/2]) {
-            linear_extrude(height = 0.57*2, center = true, convexity = 10, twist = 0) {
+            linear_extrude(height = 0.47*2, center = true, convexity = 10, twist = 0) {
                 body_cross_section();
             }
         }
     }
     scale([0.978, 0.956, 1]) {
         translate([0, 0, 7.13/2]) {
-            linear_extrude(height = 0.67*2, center = true, convexity = 10, twist = 0) {
+            linear_extrude(height = 0.57*2, center = true, convexity = 10, twist = 0) {
                 body_cross_section();
             }
         }
     }
 }
 difference(){
-    screen();
-    home_button();
+    difference(){
+        screen();
+        home_button();
+    }
+    earpiece_difference();
 }
 
 //home button
@@ -458,12 +464,56 @@ module home_button(){
             }
             difference(){
             linear_extrude(height = 0.41, center = true, convexity = 10, twist = 0, scale = 1){
-                circle(r = 11.0/2, $fn = 200);
+                circle(r = 10.9/2, $fn = 200);
             }
             linear_extrude(height = 0.4, center = true, convexity = 10, twist = 0, scale = 1){
-                circle(r = 10.9/2, $fn = 200);
+                circle(r = 10.67/2, $fn = 200);
             }
             }
         }    
     }
+}
+
+//earpiece
+module earpiece(h, s){
+    hull(){
+        translate([0, 10.8/2, 0]) {
+            linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
+                circle(r = 2.3/2, $fn = 200);
+            }        
+        }
+        mirror([0, 1, 0]) {
+            translate([0, 10.8/2, 0]) {
+                linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
+                    circle(r = 2.3/2, $fn = 200);
+                }    
+            }         
+        }
+    }
+}
+module earpiece_lin(h, s){
+    hull(){
+        translate([0, 9.8/2 + 0.5, 0]) {
+            linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
+                circle(r = 1.3/2, $fn = 200);
+            }        
+        }
+        mirror([0, 1, 0]) {
+            translate([0, 9.8/2 + 0.5, 0]) {
+                linear_extrude(height = h, center = true, convexity = 10, twist = 0, scale = s) {
+                    circle(r = 1.3/2, $fn = 200);
+                }    
+            }
+        }
+    }
+}
+module earpiece_difference(){
+    translate([-51.165, 0, 3.895]) {
+        rotate([0, 180, 0]) {
+            earpiece(0.5, [1.3/2.3, 1.3/2.3]);
+            translate([0, 0, 0.25]) {
+                earpiece_lin(1, [1, 1]);
+            }
+        }
+    }    
 }
